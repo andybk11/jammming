@@ -13,7 +13,8 @@ class App extends Component {
           playlistTracks:[]
         }
 
-        this.addTrack = this.addTrack.bind(this);          
+        this.addTrack = this.addTrack.bind(this); 
+        this.removeTrack = this.removeTrack.bind(this);         
       }
 
      
@@ -28,6 +29,14 @@ class App extends Component {
           this.setState({playlistTracks:tracks});
         }
       }
+
+      //Removes a song from a user's custom playlist
+      removeTrack(track){
+           this.setState({playlistTracks: this.state.playlistTracks.filter(playlistTrack => playlistTrack.id !== track.id)
+           });
+      }
+
+       
 
 
 
@@ -45,7 +54,8 @@ class App extends Component {
               <SearchResults searchResults={this.state.searchResults} onAdd={this.addTrack}/>
               // Add a Playlist component 
               <Playlist  playlistName={this.state.playlistName
-                         playlistTracks={this.state.playlistTracks}}/>
+                         playlistTracks={this.state.playlistTracks}}
+                         onRemove={this.removeTrack}/>
            </div>
          
            </div>
