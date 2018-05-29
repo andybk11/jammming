@@ -2,6 +2,8 @@ import React from 'react';
 import './App.css';
 import SearchResults from '../SearchResults/SearchResults';
 import Playlist from '../Playlist/Playlist';
+import SearchBar from '../SearchBar/SearchBar';
+
 
 class App extends Component {
      
@@ -16,7 +18,8 @@ class App extends Component {
         this.addTrack = this.addTrack.bind(this); 
         this.removeTrack = this.removeTrack.bind(this);
         this.updatePlaylistName = this.updatePlaylistName.bind(this); 
-        this.savePlaylist = this.savePlaylist.bind(this);        
+        this.savePlaylist = this.savePlaylist.bind(this); 
+        this.search = this.search.bind(this);       
       }
 
      
@@ -48,6 +51,10 @@ class App extends Component {
             const trackURIs = this.state.playlistTracks.map(track => track.uri);
       }
 
+      search(term){
+        
+      }
+
        
 
 
@@ -60,7 +67,7 @@ class App extends Component {
           
           <div className="App">
                //Add a SearchBar component //
-         
+               <SearchBar onSearch={this.search}/>
           <div className="App-playlist">
               //Add a SearchResults component 
               <SearchResults searchResults={this.state.searchResults} onAdd={this.addTrack}/>
