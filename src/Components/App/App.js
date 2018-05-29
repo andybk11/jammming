@@ -3,6 +3,7 @@ import './App.css';
 import SearchResults from '../SearchResults/SearchResults';
 import Playlist from '../Playlist/Playlist';
 import SearchBar from '../SearchBar/SearchBar';
+import Spotify from '../../util/Spotify';
 
 
 class App extends Component {
@@ -52,7 +53,9 @@ class App extends Component {
       }
 
       search(term){
-        
+        Spotify.search(term).then(searchResults =>{
+           this.setState({searchResults: searchResults})
+        });
       }
 
        
