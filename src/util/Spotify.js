@@ -6,7 +6,7 @@ const redirectUri = 'http://localhost:3000/';
 let accessToken;
 
 
-const Spotify{
+const Spotify ={
    
    getAccessToken(){
    	
@@ -30,12 +30,12 @@ const Spotify{
        }
 
 
-   }
+   },
 
 
    search(term){
    	      const accessToken = Spotify.getAccessToken();
-   	       return fetch(`https://api.spotify.com/v1/search?type=track&q= ${searchTerm}`, {
+   	       return fetch(`https://api.spotify.com/v1/search?type=track&q= ${term}`, {
                    headers:  {
                          Authorization: `Bearer ${accessToken}`
                         }
@@ -55,10 +55,44 @@ const Spotify{
         });
 
    },
-    
+     savePlaylist(playlistName, trackURIs) {
+     	if (!playlistName || !trackURIs.length) {
+            return;
+        }
 
+        const accessToken = Spotify.getAccessToken();
+        const headers = {
+            Authorization: `Bearer ${accessToken}`
+        };
+        let userId='';
 
+        
+        //Make a request that return the user's Spotify username
+        return fetch('https://api.spotify.com/v1/me', {
+        	headers: headers
+        }).then(response => {return response.json();
+        }).then(
+            jsonResponse => {
+            	userId = jsonResponse.id;
 
+            return fetch(`https://api.spotify.com/v1/users/${userId}/playlists`, {
+                    headers: headers,
+                    method: 'POST',
+                    body: JSON.stringify({name: playlistName})
+        }).then(response => {return response.json();
+        }).then(
+              jsonResponse => {
+                        const playlistId = jsonResponse.id;
+
+                        return fetch(`https://api.spotify.com/v1/users/${userId}/playlists/${playlistId}/tracks`, {
+                            headers: headers,
+                            method: 'POST',
+                            body: JSON.stringify({ uris: trackURIs})
+                        });
+                    });
+        });
+
+     }
 
 }
 
@@ -68,4 +102,9 @@ const Spotify{
 export default Spotify;
 
 
-You will be using the Implicit Grant Flow to setup a user's account and make requests. The implicit grant flow returns a user's access token in the URL.
+
+
+
+
+
+

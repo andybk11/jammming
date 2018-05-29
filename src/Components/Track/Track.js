@@ -10,6 +10,14 @@ class Track extends React.Component{
        }
         
     
+    renderAction() {
+    if (this.props.onAdd) {
+      return <a className='Track-action' onClick={this.addTrack}>+</a>;
+    } else {
+      return <a className='Track-action' onClick={this.removeTrack}>-</a>;
+    }
+  }
+
     // Add this.props.track to the playlist.
     addTrack() {
         this.props.onAdd(this.props.track);
@@ -21,31 +29,21 @@ class Track extends React.Component{
     }
 
     
-   
-
-
-
-
-
-    render() {
+   render() {
         return(
+            
             <div className="Track" key={this.props.track.id}>
                 
                 <div className="Track-information">
-                     <h3>{this.props.track.name}</h3>
-                     <p>{this.props.track.artist} | {this.props.track.album}</p>
+                    <h3>{this.props.track.name}</h3>
+                    <p>{this.props.track.artist} | {this.props.track.album}</p>
                 </div>
-                      <a className="Track-action">
-                      //+ or - will go here 
-                      if(this.props.onAdd){
-                        return<a  className='Track-action' onClick={this.addTrack}>+</a>
-                      }else{
-                        return <a className='Track-action' onClick={this.removeTrack}>-</a>;
-                      }
-                      </a>
-                </div>
+                {this.renderAction()}
+            </div>
         );
     }
+
+    
 }
 
 export default Track;
